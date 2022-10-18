@@ -3,8 +3,7 @@ class Solution {
         int currentIndex = 0;
         int compareIndex;
         for (compareIndex = currentIndex + 1; compareIndex < nums.length; compareIndex++) {
-            if (nums[currentIndex] == nums[compareIndex]) {
-            } else {
+            if (nums[currentIndex] != nums[compareIndex]) {
                 nums[++currentIndex] = nums[compareIndex];
             }
         }
