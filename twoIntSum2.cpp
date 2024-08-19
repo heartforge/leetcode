@@ -1,14 +1,22 @@
 #include <vector>
-
 class Solution {
 public:
-    std::vector<int> twoSum(std::vector<int>& numbers, int target) {
-        for (int i = 0; i < numbers.size(); i++) {
-            for (int j = 0; j < numbers.size(); j++) {
-                if (numbers[i] + numbers[j] == target && i != j) {
-                    return {++i, ++j};
-                }
-            }
-        }
+  std::vector<int> twoSum(std::vector<int>& numbers, int target) {
+    int lPtr = 0;
+    int rPtr = numbers.size()-1;
+
+    while (lPtr <= rPtr) {
+      int sum = numbers[lPtr] + numbers[rPtr];
+
+      if (sum == target) {
+        return { lPtr+1, rPtr+1 };
+      } else if (sum < target) {
+        lPtr++;
+      } else if (sum > target) {
+        rPtr--;
+      }
     }
+    return {};
+  }
 };
+
