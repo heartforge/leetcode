@@ -1,17 +1,15 @@
 class TreeNode {
 public:
   int val;
-  TreeNode* left = nullptr;
-  TreeNode* right = nullptr;
+  TreeNode *left = nullptr;
+  TreeNode *right = nullptr;
 
-  TreeNode(int val) {
-    this->val = val;
-  }
+  TreeNode(int val) { this->val = val; }
 };
 
 class Solution {
 public:
-  bool isSameTree(TreeNode* p, TreeNode* q) {
+  bool isSameTree(TreeNode *p, TreeNode *q) {
     if (!p && !q) {
       return true;
     } else if (!p && q) {
