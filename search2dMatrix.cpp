@@ -1,33 +1,37 @@
 #include <vector>
 class Solution {
 public:
-  bool searchMatrix(std::vector<std::vector<int>>& matrix, int target) {
-    int leftBound = 0;
-    int rightBound = matrix.size()-1;
+  bool searchMatrix(std::vector<std::vector<int>> &matrix, int target) {
+    const int outSize = matrix.size();
+    const int inSize = matrix[0].size();
 
-    while (leftBound <= rightBound) {
-      int middle = leftBound + ((rightBound - leftBound) / 2);
+    int outLeft = 0;
+    int outRight = outSize - 1;
 
-      if (search)
-      
+    while (outLeft <= outRight) {
+      int outMiddle = (outLeft + outRight) / 2;
+      if (target < matrix[outMiddle][0]) {
+        outRight = outMiddle - 1;
+      } else if (target > matrix[outMiddle][inSize - 1]) {
+        outLeft = outMiddle + 1;
+      } else {
+        break;
+      }
     }
-  }
 
-  bool searchArray(std::vector<int>& array, int target) {
-    if (array.size() == 0) {
+    if (outLeft > outRight) {
       return false;
     }
+    int inLeft = 0;
+    int inRight = inSize - 1;
+    int outMid = (outLeft + outRight) / 2;
 
-    int leftBound = 0;
-    int rightBound = array.size()-1;
-
-    while (leftBound <= rightBound) {
-      int middle = leftBound + ((rightBound - leftBound) / 2);
-
-      if (array[middle] < target) {
-        leftBound = middle + 1;
-      } else if (array[middle] > target) {
-        rightBound = middle - 1;
+    while (inLeft <= inRight) {
+      int inMid = (inLeft + inRight) / 2;
+      if (target < matrix[outMid][inMid]) {
+        inRight = inMid - 1;
+      } else if (target > matrix[outMid][inMid]) {
+        inLeft = inMid + 1;
       } else {
         return true;
       }
