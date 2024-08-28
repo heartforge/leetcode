@@ -3,13 +3,7 @@
 
 class Solution {
 public:
+  std::string encode(std::vector<std::string> &strs) {}
 
-    std::string encode(std::vector<std::string>& strs) {
-        
-
-    }
-
-    std::vector<std::string> decode(std::string s) {
-
-    }
+  std::vector<std::string> decode(std::string s) {}
 };

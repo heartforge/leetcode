@@ -2,7 +2,7 @@
 #include <vector>
 class Solution {
 public:
-  int maxProfit(std::vector<int>& prices) {
+  int maxProfit(std::vector<int> &prices) {
     int leftBound = 0;
     int rightBound = 0;
     int maxProfit = 0;
