@@ -1,9 +1,7 @@
-#include <queue>
 #include <unordered_map>
-#include <unordered_set>
 #include <vector>
 using namespace std;
-// Definition for a Node.
+
 class Node {
 public:
   int val;
@@ -24,26 +22,26 @@ public:
 
 class Solution {
 public:
-  Node *cloneGraph(Node *node) {}
+  Node *cloneGraph(Node *node) {
+    unordered_map<Node *, Node *> newToOld;
+    return dfs(node, newToOld);
+  }
 
-  Node *bfs(Node *node) {
-    queue<Node *> queue;
-    unordered_set<int> visit;
-    queue.push(node);
-    visit.insert(node->val);
-
-    Node *copyHead = node;
-    Node *curr = node;
-
-    while (queue.size() > 0) {
-      int length = queue.size();
-      for (int i = 0; i < length; i++) {
-        Node *cur = queue.front();
-        queue.pop();
-
-        for (Node *neighbour : cur->neighbors) {
-        }
-      }
+  Node *dfs(Node *node, unordered_map<Node *, Node *> &newToOld) {
+    if (!node) {
+      return nullptr;
     }
+    if (newToOld.count(node) > 0) {
+      return newToOld[node];
+    }
+
+    Node *copy = new Node(node->val);
+    newToOld[node] = copy;
+    for (Node *n : node->neighbors) {
+      Node *m = dfs(n, newToOld);
+      copy->neighbors.push_back(m);
+    }
+
+    return copy;
   }
 };
