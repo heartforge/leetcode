@@ -1,6 +1,4 @@
 #include <algorithm>
-#include <iostream>
-#include <ostream>
 #include <queue>
 #include <utility>
 #include <vector>
@@ -9,64 +7,52 @@ using namespace std;
 class Solution {
 public:
   void islandsAndTreasure(vector<vector<int>> &grid) {
-    cout << "Wtf" << endl;
     for (int i = 0; i < grid.size(); i++) {
       for (int j = 0; j < grid[0].size(); j++) {
-        cout << "First" << endl;
-        if (grid[i][j] > 0) {
+        if (grid[i][j] == 0) {
           bfs(grid, i, j);
         }
       }
     }
   }
 
-  void bfs(vector<vector<int>> &grid, int startR, int startC) {
+  void bfs(vector<vector<int>> &grid, int i, int j) {
     int ROWS = grid.size();
     int COLS = grid[0].size();
-    vector<vector<int>> visit;
-    queue<pair<int, int>> queue;
-    queue.push(pair<int, int>(startR, startC));
-    visit.push_back({startR, startC});
 
-    int length = 0;
+    queue<pair<int, int>> queue;
+    vector<vector<int>> visit(ROWS, vector<int>(COLS));
+
+    queue.push(make_pair(i, j));
+    visit[i][j] = 1;
+    int distance = 0;
 
     while (queue.size() > 0) {
-      int qLength = queue.size();
-      for (int i = 0; i < qLength; i++) {
-        pair<int, int> curr = queue.front();
+      int qLen = queue.size();
+      for (int x = 0; x < qLen; x++) {
+        pair<int, int> curCell = queue.front();
         queue.pop();
-        int r = curr.first;
-        int c = curr.second;
-        cout << "Here" << endl;
-        if (grid[r][c] == 0) {
-          grid[startR][startC] = length;
+        int r = curCell.first;
+        int c = curCell.second;
+
+        if (grid[r][c] > 0) {
+          grid[r][c] = min(grid[r][c], distance);
         }
 
-        int neighbours[4][2] = {{r, c + 1}, {r, c - 1}, {r + 1, c}, {r - 1, c}};
-        for (int j = 0; j < 4; j++) {
-          int newR = neighbours[j][0];
-          int newC = neighbours[j][1];
-
-          cout << newR << endl;
+        int neighbours[4][2] = {{r + 1, c}, {r - 1, c}, {r, c + 1}, {r, c - 1}};
+        for (int y = 0; y < 4; y++) {
+          int newR = neighbours[y][0];
+          int newC = neighbours[y][1];
           if (min(newR, newC) < 0 || newR == ROWS || newC == COLS ||
-              grid[newR][newC] == -1 || visit[newR][newC] == 1) {
+              visit[newR][newC] == 1 || grid[newR][newC] <= 0) {
             continue;
           }
 
+          queue.push(make_pair(newR, newC));
           visit[newR][newC] = 1;
-          queue.push(pair<int, int>(newR, newC));
         }
       }
-      length++;
+      distance++;
     }
-  }
-
-  int main() {
-    vector<vector<int>> in = {{2147483647, -1, 0, 2147483647},
-                              {2147483647, 2147483647, 2147483647, -1},
-                              {2147483647, -1, 2147483647, -1},
-                              {0, -1, 2147483647, 2147483647}};
-    islandsAndTreasure(in);
-    return 0;
   }
 };
