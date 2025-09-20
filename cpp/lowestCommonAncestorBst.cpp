@@ -1,6 +1,5 @@
-#include <vector>
+#include <algorithm>
 using namespace std;
-
 struct TreeNode {
   int val;
   TreeNode *left;
@@ -13,41 +12,28 @@ struct TreeNode {
 
 class Solution {
 public:
-  TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q) {}
-
-  vector<int> dfs(TreeNode *root, TreeNode *p, TreeNode *q) {
-    if (!root) {
-      return {0, 0};
-    }
-
-    vector<int> left = dfs(root->left, p, q);
-    vector<int> right = dfs(root->right, p, q);
-
-    if (left[0] && right[1] || left[1] && right[0]) {
-      return;
-    }
-
-    int curP = root->val == p->val;
-    int curQ = root->val == q->val;
-
-    return {curP, curQ};
-  }
-
-  TreeNode *dfs2(TreeNode *root, TreeNode *p, TreeNode *q) {
+  TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q) {
     if (!root) {
       return nullptr;
     }
 
-    TreeNode *left = dfs2(root->left, p, q);
-    TreeNode *right = dfs2(root->right, p, q);
+    return search(root, p, q);
+  }
 
-    bool cur = root->val == p->val || root->val == q->val;
-    if (cur && left || cur && right) {
-      return root;
-    } else if (left && right) {
-      return root;
+  TreeNode *search(TreeNode *root, TreeNode *p, TreeNode *q) {
+    if (!root) {
+      return nullptr;
     }
 
-    return nullptr;
+    if (!p || !q) {
+      return nullptr;
+    }
+
+    if (min(p->val, q->val) > root->val) {
+      return search(root->right, p, q);
+    } else if (max(p->val, q->val) < root->val) {
+      return search(root->left, p, q);
+    }
+    return root;
   }
 };
