@@ -1,20 +1,37 @@
+#include <algorithm>
+#include <climits>
+#include <unordered_map>
 #include <vector>
 using namespace std;
 
 class Solution {
 public:
-  int coinChange(vector<int> &coins, int amount) {}
+  unordered_map<int, int> memo;
+  int coinChange(vector<int> &coins, int amount) {
+    int minCoins = dfs(coins, amount);
+    return (minCoins >= INT_MAX) ? -1 : minCoins;
+  }
 
-  vector<int> dfs(vector<int> &coins, int amount, int i, int quantity) {
-
-    if (amount < 0) {
-      return {-1, quantity};
-    }
+  int dfs(vector<int> &coins, int amount) {
     if (amount == 0) {
-      return {1, quantity};
+      return 0;
+    }
+    if (memo.find(amount) != memo.end()) {
+      return memo[amount];
     }
 
-    vector<int> skip = dfs(coins, amount, i + 1, quantity);
-    vector<int> take = dfs(coins, amount - coins[i], i, quantity + 1);
+    int res = INT_MAX;
+    for (int coin : coins) {
+      if (amount - coin >= 0) {
+        int result = dfs(coins, amount - coin);
+
+        if (result != INT_MAX) {
+          res = min(res, 1 + result);
+        }
+      }
+    }
+
+    memo[amount] = res;
+    return res;
   }
 };
